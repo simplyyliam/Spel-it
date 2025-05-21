@@ -50,7 +50,7 @@ export const Title: React.FC<TitleProps> = ({
   return (
     <h1
       ref={ref}
-      className={`text-8xl opacity-0 font-medium text-black ${className ?? ""}`}
+      className={`lg:text-8xl text-7xl text-center opacity-0 font-medium text-black ${className ?? ""}`}
       {...props}
     >
       {children}

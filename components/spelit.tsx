@@ -11,7 +11,7 @@ type DatamuseWord = {
   word: string;
   score?: number;
   tags?: string[];
-};
+};  
 
 function Spelit() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -116,17 +116,17 @@ const getWordFromDatamuse = async (): Promise<string> => {
   };
 
   return (
-    <SectionWrapper className="flex flex-col gap-4 items-center justify-center min-h-screen">
+    <SectionWrapper className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       {!started ? (
         <Intro onclick={onStart}/>
       ) : (
         <>
-          <form onSubmit={onSubmit} className="w-screen p-20">
+          <form onSubmit={onSubmit} className="w-screen lg:p-20">
             <input
               ref={inputRef}
               type="text"
               placeholder="Spell The Word"
-              className="w-full p-20 text-6xl text-center focus:outline-none"
+              className="w-full lg:p-20 lg:text-6xl text-4xl text-center focus:outline-none"
               autoComplete="off"
               spellCheck={false}
               />
