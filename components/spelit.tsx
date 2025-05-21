@@ -7,6 +7,12 @@ import { Score } from "./UI/points";
 import { CustomButton } from "./UI/CustomButton";
 import Intro from "./UI/Intro";
 
+type DatamuseWord = {
+  word: string;
+  score?: number;
+  tags?: string[];
+};
+
 function Spelit() {
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -19,17 +25,16 @@ function Spelit() {
     correct: "/SFX/Reward_1.mp3",
   };
 
-  const getWordFromDatamuse = async () => {
-    const res = await fetch(
-      "https://api.datamuse.com/words?ml=common&max=1000"
-    );
-    const data = await res.json();
-    const words = data
-      .map((item: any) => item.word)
-      .filter((w: string) => w.length <= 10);
-    return words[Math.floor(Math.random() * words.length)];
-  };
+const getWordFromDatamuse = async (): Promise<string> => {
+  const res = await fetch("https://api.datamuse.com/words?ml=common&max=1000");
+  const data: DatamuseWord[] = await res.json();
 
+  const words = data
+    .map((item) => item.word)
+    .filter((w) => w.length <= 10);
+
+  return words[Math.floor(Math.random() * words.length)];
+};
   const speakWord = (word: string) => {
     const msg = new SpeechSynthesisUtterance(`Can you spell ${word}`);
 
