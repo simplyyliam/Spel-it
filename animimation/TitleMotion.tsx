@@ -3,16 +3,13 @@ import { SplitText } from "gsap/all";
 import React, { HTMLAttributes, useEffect, useRef } from "react";
 
 export const TitleMotion: React.FC<HTMLAttributes<HTMLHeadElement>> = ({
-    children, className, ...props 
+  children,
+  className,
+  ...props
 }) => {
-      const ref = useRef<HTMLHeadingElement>(null);
+  const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-      if (ref.current) {
-        gsap.set(ref.current, {
-          opacity: 1,
-        });
-      }
     if (ref.current) {
       gsap.to(ref.current, {
         opacity: 1,
@@ -33,7 +30,9 @@ export const TitleMotion: React.FC<HTMLAttributes<HTMLHeadElement>> = ({
       });
     }
   }, []);
-    return (
-        <h1 ref={ref} className={`${className}`} {...props}>{children}</h1>
-    )
-}
+  return (
+    <h1 ref={ref} className={`opacity-0 ${className}`} {...props}>
+      {children}
+    </h1>
+  );
+};
