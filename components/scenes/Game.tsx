@@ -1,11 +1,7 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
-import { SectionWrapper } from "./modals/SectionWrapper";
-import { CustomCard } from "./UI/CustomCard";
-import { Score } from "./UI/points";
-import { CustomButton } from "./UI/CustomButton";
-import Intro from "./UI/Intro";
+
 
 type DatamuseWord = {
   word: string;
@@ -13,7 +9,7 @@ type DatamuseWord = {
   tags?: string[];
 };  
 
-function Spelit() {
+function Game() {
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
@@ -116,9 +112,9 @@ const getWordFromDatamuse = async (): Promise<string> => {
   };
 
   return (
-    <SectionWrapper className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
+    <div className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       {!started ? (
-        <Intro onclick={onStart}/>
+        <button onClick={onStart}/>
       ) : (
         <>
           <form onSubmit={onSubmit} className="w-screen lg:p-20">
@@ -131,16 +127,16 @@ const getWordFromDatamuse = async (): Promise<string> => {
               spellCheck={false}
               />
           </form>
-          <CustomCard>
-            <Score>{score}</Score>
-          </CustomCard>
-          <CustomButton onClick={RepeatWord}>Repeat</CustomButton>
+          <div>
+            <div>{score}</div>
+          </div>
+          <button onClick={RepeatWord}>Repeat</button>
         </>
       )}
       <audio ref={audioRef} preload="auto" />
 
-    </SectionWrapper>
+    </div>
   );
 }
 
-export default Spelit;
+export default Game;

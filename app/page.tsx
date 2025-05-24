@@ -1,9 +1,10 @@
-import Spelit from "@/components/spelit";
+import HomeScene from "@/components/scenes/Home";
+
 
 export default function Home() {
   return (
     <>
-      <Spelit />
+      <HomeScene/>
     </>
   );
 }

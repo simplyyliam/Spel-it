@@ -1,48 +1,40 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('/path-to-fonts/SFProDisplay-Regular.woff2') format('woff2'),
-         url('/path-to-fonts/SFProDisplay-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
+@theme {
+    --font-Poppins: 'Poppins', sans-serif;
+    /* Color Palette */
+    --color-BG: #FAF4EF;
+    --color-primary: #A78C7E;
+    --color-secondary: #FDF6EE;
+    --color-border: #3E302C;
+    --color-tertiary: #A4B494;
+    --color-tertiary-2: #E8B281;
+    --color-text: #2C2C2C;
 
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('/path-to-fonts/SFProDisplay-Bold.woff2') format('woff2'),
-         url('/path-to-fonts/SFProDisplay-Bold.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-}
+    /*Shadows*/
+    --shadow-button: #2C2C2C,,
 
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('/path-to-fonts/SFProDisplay-Italic.woff2') format('woff2'),
-         url('/path-to-fonts/SFProDisplay-Italic.woff') format('woff');
-    font-weight: 400;
-    font-style: italic;
 }
 
 ::-webkit-scrollbar {
     display: none;
 }
 
-@theme {
-    --font-DmSans: "DM Sans", sans-serif;
-    --font-Nunito: "Nunito Sans", sans-serif;
-
-    /*Folder shadow base shaow*/
-    --shadow-folder: 0 0px 77px -26px rgba(0, 0, 0, 0.25); 
-}
 
 * {
     box-sizing: border-box;
-    font-family: SF Pro Display;
+  font-family:  "Poppins", sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body, 
 html {
     overflow: hidden;
+}
+
+button {
+    box-shadow: 0px 23.6002px 44.5627px -13.8825px rgba(0, 0, 0, 0.5);
 }
