@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCollectionStore } from "../../components/scenes/Collection";
+import Link from "next/link";
 
 type DatamuseWord = {
   word: string;
@@ -139,7 +140,10 @@ function Page() {
         <div>
           <div>{score}</div>
         </div>
-        <button onClick={RepeatWord}>Repeat</button>
+        <div className="flex gap-4 items-center justify-center">
+          <button onClick={RepeatWord}>Repeat</button>
+          <Link href="/">Leave Game</Link>
+        </div>
       </>
       <audio ref={audioRef} preload="auto" />
     </div>

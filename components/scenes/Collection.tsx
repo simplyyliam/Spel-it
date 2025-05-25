@@ -6,6 +6,7 @@ type CollectionStore = {
   mistakes: number;
   setLearntWords: (value: number) => void;
   setMistakes: (value: number) => void;
+  reset: () => void
 };
 
 export const useCollectionStore = create(
@@ -17,6 +18,7 @@ export const useCollectionStore = create(
         set((state) => ({ learntWords: state.learntWords + value })),
       setMistakes: (value) =>
         set((state) => ({ mistakes: state.mistakes + value })),
+      reset: () => set({learntWords: 0, mistakes: 0})
     }),
     {
       name: "collection-storage", // 🔒 key in localStorage

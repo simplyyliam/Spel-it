@@ -8,29 +8,34 @@ import { useCollectionStore } from "@/components/scenes/Collection";
 
 function PlayerProfile() {
   const [showProfile, setShowProfile] = useState(false);
-  const {learntWords, mistakes} = useCollectionStore()
+  const [moreOptions, setMoreOption] = useState(false);
+  const { learntWords, mistakes, reset } = useCollectionStore();
 
-  const profileRef = useRef<HTMLDivElement>(null);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleProfileMenu = () => {
     setShowProfile((prev) => !prev);
   };
+  const handleMoreOptions = () => {
+    setMoreOption((prev) => !prev);
+  };
 
   useEffect(() => {
-    if (profileRef.current) {
-      gsap.to(profileRef.current, {
+    if (ref.current) {
+      gsap.to(ref.current, {
         opacity: 1,
         scale: 1,
         duration: 0.4,
         ease: "expo.out",
       });
     }
-  }, [showProfile]);
+  }, [showProfile, moreOptions]);
 
   return (
     <>
       {showProfile && (
-        <div ref={profileRef} className="opacity-0 scale-0">
+        <div ref={ref} className="opacity-0 scale-0">
           <CardWrapper className="h-90 flex flex-col gap-4 max-w-85 p-4">
             <div className="flex gap-4 items-center">
               <div className="w-[85px] h-[100px] bg-primary/25 flex items-center justify-center rounded-sm">
@@ -42,7 +47,27 @@ function PlayerProfile() {
                   &quot;A plell everyday, will get you into hogworths&quot;
                 </p>
               </div>
+              <UIButton
+                onClick={handleMoreOptions}
+                className="absolute right-5 top-5 p-0.5 px-2 hover:bg-primary transition ease-linear hover:text-BG"
+                style={{
+                  borderRadius: "5px",
+                }}
+              >
+                •••
+              </UIButton>
+              {moreOptions && (
+                <div
+                  ref={ref}
+                  className="absolute right-5 top-15 bg-BG shadow-xl p-3 border-border border-[1.5px] rounded-lg mb-4 opacity-0 scale-0"
+                >
+                  <button onClick={() => reset()} className="flex items-center w-full p-3 cursor-pointer rounded-lg hover:bg-primary transition ease-linear text-text hover:text-BG text-[13px]">
+                    Reset
+                  </button>
+                </div>
+              )}
             </div>
+
             <h1 className="text-text text-lg font-medium">My Collection</h1>
             <div className="flex items-center">
               <h1 className="text-text/50 flex-auto">Words Learnt</h1>
