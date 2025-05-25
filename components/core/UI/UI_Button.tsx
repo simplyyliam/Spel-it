@@ -61,7 +61,7 @@ export const UIButton = forwardRef<
     <>
       <button
         ref={innerRef}
-        className={`button bg-secondary border-border border-[1.5px] cursor-pointer px-6 py-4 rounded-xl ${className}`}
+        className={` bg-secondary border-border border-[1.5px] cursor-pointer rounded-xl ${className}`}
         {...props}
       >
         {children}

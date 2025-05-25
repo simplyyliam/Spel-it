@@ -35,6 +35,6 @@ html {
     overflow: hidden;
 }
 
-button {
-    box-shadow: 0px 23.6002px 44.5627px -13.8825px rgba(0, 0, 0, 0.5);
+.button {
+    box-shadow: 0px 23.6002px 44.5627px -13.8825px rgba(0, 0, 0, 0.4);
 }
