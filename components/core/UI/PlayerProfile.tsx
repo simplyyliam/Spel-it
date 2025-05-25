@@ -8,7 +8,7 @@ import { useCollectionStore } from "@/components/scenes/Collection";
 
 function PlayerProfile() {
   const [showProfile, setShowProfile] = useState(false);
-  const {learntWords, Mistakes} = useCollectionStore()
+  const {learntWords, mistakes} = useCollectionStore()
 
   const profileRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +50,7 @@ function PlayerProfile() {
             </div>
             <div className="flex items-center">
               <h1 className="text-text/50 flex-auto">Mistakes</h1>
-              <span className="flex-auto">{Mistakes}</span>
+              <span className="flex-auto">{mistakes}</span>
             </div>
           </CardWrapper>
         </div>
