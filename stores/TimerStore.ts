@@ -20,5 +20,5 @@ export const useTimerStore = create<TimerStore>((set) => ({
         if(s.nextWordTimer <= 0) return s
         return {nextWordTimer: s.nextWordTimer -1}
     }),
-    reset: () => set({nextWordTimer: 40})
+    reset: () => set({nextWordTimer: 40}),
 }))

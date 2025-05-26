@@ -1,7 +1,7 @@
 "use client";
 
 import { CardWrapper } from "@/components/modals/CardWrapper";
-import { UIButton } from "./UI_Button";
+import { UIButton } from "./ButtonModal";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { usePlayerStore } from "@/stores/PlayerStore";

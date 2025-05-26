@@ -5,7 +5,7 @@ import { TitleMotion } from "../../components/core/animimation/TitleMotion";
 import { ZoomMotion } from "../../components/core/animimation/ZoomMotion";
 import { ZoomMotionGroup } from "../../components/core/animimation/ZoomMotionGroup";
 import PlayerProfile from "../../components/core/UI/PlayerProfile";
-import { UIButton } from "../../components/core/UI/UI_Button";
+import { UIButton } from "../core/UI/ButtonModal";
 import { SceneWrapper } from "../../components/modals/SceneWrapper";
 
 function HomeScene() {

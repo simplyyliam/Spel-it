@@ -3,11 +3,13 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { UIButton } from "@/components/core/UI/UI_Button";
-import TimerUI from "@/components/core/UI/TimerUI";
+import { UIButton } from "@/components/core/UI/ButtonModal";
 import { useTimerStore } from "@/stores/TimerStore";
-import NextWordTick from "@/components/core/UI/NextWordTimer";
 import { usePlayerStore } from "@/stores/PlayerStore";
+import PlayerCard from "@/components/core/UI/PlayerCard";
+import NextWordTick from "@/components/core/UI/NextWordTimer";
+import TimerUI from "@/components/core/UI/TimerUI";
+import PauseButton from "@/components/core/UI/PauseButton";
 
 type DatamuseWord = {
   word: string;
@@ -19,8 +21,9 @@ function Page() {
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
-  const { timer, nextWordTimer, reset } = useTimerStore();
-  const {setPoints, setXP, points, setLearntWords, setMistakes} = usePlayerStore()
+  const { timer, reset, nextWordTimer } = useTimerStore();
+  const { setPoints, setXP, points, setLearntWords, setMistakes } =
+    usePlayerStore();
   const router = useRouter();
 
   const Sfx = {
@@ -38,6 +41,15 @@ function Page() {
 
     return words[Math.floor(Math.random() * words.length)];
   };
+
+  async function newWord() {
+    const newWord = await getWordFromDatamuse();
+    setCurrentWord(newWord);
+    speakWord(newWord);
+    reset();
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
   const speakWord = (word: string) => {
     const msg = new SpeechSynthesisUtterance(`Can you spell ${word}`);
 
@@ -86,24 +98,17 @@ function Page() {
 
     if (userValue === currentWord) {
       audio.src = Sfx.correct;
-      setPoints(5)
-      setXP(10)
+      setPoints(5);
+      setXP(10);
       setLearntWords(1);
       try {
         await audio.play();
       } catch (err) {
         console.error("Audio play failed:", err);
       }
-      const newWord = await getWordFromDatamuse();
-      setCurrentWord(newWord);
-      speakWord(newWord);
-      reset();
-      if (inputRef.current) inputRef.current.value = "";
+      newWord();
     } else {
-      const newWord = await getWordFromDatamuse();
-      setCurrentWord(newWord);
-      speakWord(newWord);
-      reset();
+      newWord();
       audio.src = Sfx.wrong;
       setMistakes(1);
       try {
@@ -150,10 +155,15 @@ function Page() {
   return (
     <div className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       <>
-        <div className="flex gap-4 items-center justify-center absolute top-10">
-          <TimerUI />
-          <NextWordTick />
+        <div className="flex gap-4 items-center justify-between w-full absolute top-5 px-4">
+          <PlayerCard />
+          <div className="flex gap-4 absolute left-[42%]">
+            <TimerUI />
+            <NextWordTick />
+          </div>
+          <PauseButton />
         </div>
+
         <form onSubmit={onSubmit} className="w-screen lg:p-20">
           <input
             ref={inputRef}
@@ -164,9 +174,6 @@ function Page() {
             spellCheck={false}
           />
         </form>
-        <div>
-          <div>{points}</div>
-        </div>
         <div className="flex gap-4 items-center justify-center absolute bottom-10">
           <UIButton className="p-4" onClick={RepeatWord}>
             Repeat
