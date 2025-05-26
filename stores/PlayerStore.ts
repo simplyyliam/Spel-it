@@ -29,7 +29,7 @@ type PlayerStore = {
 };
 
 const rankThresholds: { rank: Rank; xp: number }[] = [
-  { rank: "Unranked", xp: 0 },
+  { rank: "unranked", xp: 0 },
   { rank: "Noobling", xp: 500 },
   { rank: "Typo Tamer", xp: 1500 },
   { rank: "Spella", xp: 2500 },
