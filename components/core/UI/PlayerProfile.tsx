@@ -4,13 +4,16 @@ import { CardWrapper } from "@/components/modals/CardWrapper";
 import { UIButton } from "./UI_Button";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { useCollectionStore } from "@/components/scenes/Collection";
+import { usePlayerStore } from "@/stores/PlayerStore";
+import Image from "next/image";
+import { PlayerIcons } from "./PlayerIcons";
 
 function PlayerProfile() {
   const [showProfile, setShowProfile] = useState(false);
   const [moreOptions, setMoreOption] = useState(false);
-  const { learntWords, mistakes, reset } = useCollectionStore();
-
+  const { xp, points, rank, learntWords, mistakes, reset } = usePlayerStore();
+  const Points = PlayerIcons["points"];
+  const Xp = PlayerIcons["Xp"];
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -61,7 +64,10 @@ function PlayerProfile() {
                   ref={ref}
                   className="absolute right-5 top-15 bg-BG shadow-xl p-3 border-border border-[1.5px] rounded-lg mb-4 opacity-0 scale-0"
                 >
-                  <button onClick={() => reset()} className="flex items-center w-full p-3 cursor-pointer rounded-lg hover:bg-primary transition ease-linear text-text hover:text-BG text-[13px]">
+                  <button
+                    onClick={() => reset()}
+                    className="flex items-center w-full p-3 cursor-pointer rounded-lg hover:bg-primary transition ease-linear text-text hover:text-BG text-[13px]"
+                  >
                     Reset
                   </button>
                 </div>
@@ -87,10 +93,29 @@ function PlayerProfile() {
         <div className="flex flex-col flex-auto items-start gap-2">
           <div className="flex gap-2">
             <h1 className="text-xl text-text font-medium">Miyuki</h1>
-            {/* The point store goes here */}
+            <span className="flex gap-2 items-center justify-center w-auto h-auto">
+              <Image
+                src={Points}
+                width={20}
+                height={20}
+                quality={100}
+                alt="Player points icon"
+              />
+              {points}
+            </span>
+            <span className="flex gap-2 items-center justify-center w-auto h-auto">
+              <Image
+                src={Xp}
+                width={20}
+                height={20}
+                quality={100}
+                alt="Player points icon"
+              />
+              {xp}
+            </span>
           </div>
           <h1 className="text-text/50 text-[14px] font-light">
-            Rank: Vocabrawller
+            Rank: {rank}
           </h1>
         </div>
         <div className="w-[68px] h-[68px] bg-primary/25 flex items-center justify-center rounded-sm">

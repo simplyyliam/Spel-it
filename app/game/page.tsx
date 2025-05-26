@@ -2,8 +2,12 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCollectionStore } from "../../components/scenes/Collection";
 import Link from "next/link";
+import { UIButton } from "@/components/core/UI/UI_Button";
+import TimerUI from "@/components/core/UI/TimerUI";
+import { useTimerStore } from "@/stores/TimerStore";
+import NextWordTick from "@/components/core/UI/NextWordTimer";
+import { usePlayerStore } from "@/stores/PlayerStore";
 
 type DatamuseWord = {
   word: string;
@@ -15,8 +19,8 @@ function Page() {
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
-  const [score, setScore] = useState(0);
-  const { setLearntWords, setMistakes } = useCollectionStore();
+  const { timer, nextWordTimer, reset } = useTimerStore();
+  const {setPoints, setXP, points, setLearntWords, setMistakes} = usePlayerStore()
   const router = useRouter();
 
   const Sfx = {
@@ -69,10 +73,10 @@ function Page() {
 
   // Check if user reached 5 correct answers
   useEffect(() => {
-    if (score === 5) {
+    if (timer === 0) {
       router.push("/");
     }
-  }, [score, router]);
+  }, [timer, router]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -82,7 +86,8 @@ function Page() {
 
     if (userValue === currentWord) {
       audio.src = Sfx.correct;
-      setScore((prev) => prev + 1);
+      setPoints(5)
+      setXP(10)
       setLearntWords(1);
       try {
         await audio.play();
@@ -92,8 +97,13 @@ function Page() {
       const newWord = await getWordFromDatamuse();
       setCurrentWord(newWord);
       speakWord(newWord);
+      reset();
       if (inputRef.current) inputRef.current.value = "";
     } else {
+      const newWord = await getWordFromDatamuse();
+      setCurrentWord(newWord);
+      speakWord(newWord);
+      reset();
       audio.src = Sfx.wrong;
       setMistakes(1);
       try {
@@ -103,6 +113,19 @@ function Page() {
       }
     }
   };
+
+  useEffect(() => {
+    const handleNextWord = async () => {
+      if (nextWordTimer === 0) {
+        const newWord = await getWordFromDatamuse();
+        setCurrentWord(newWord);
+        speakWord(newWord);
+        reset();
+      }
+    };
+
+    handleNextWord();
+  }, [nextWordTimer, reset]);
 
   const RepeatWord = () => {
     if (!currentWord) return;
@@ -127,6 +150,10 @@ function Page() {
   return (
     <div className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       <>
+        <div className="flex gap-4 items-center justify-center absolute top-10">
+          <TimerUI />
+          <NextWordTick />
+        </div>
         <form onSubmit={onSubmit} className="w-screen lg:p-20">
           <input
             ref={inputRef}
@@ -138,11 +165,15 @@ function Page() {
           />
         </form>
         <div>
-          <div>{score}</div>
+          <div>{points}</div>
         </div>
-        <div className="flex gap-4 items-center justify-center">
-          <button onClick={RepeatWord}>Repeat</button>
-          <Link href="/">Leave Game</Link>
+        <div className="flex gap-4 items-center justify-center absolute bottom-10">
+          <UIButton className="p-4" onClick={RepeatWord}>
+            Repeat
+          </UIButton>
+          <UIButton className="p-4">
+            <Link href="/">Leave Game</Link>
+          </UIButton>
         </div>
       </>
       <audio ref={audioRef} preload="auto" />
