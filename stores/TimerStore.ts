@@ -1,24 +1,38 @@
 import { create } from "zustand";
 
 type TimerStore = {
-    timer: number
-    nextWordTimer: number
-    TimerTick: () => void
-    NextWordTick: () => void
-    reset: () => void
-}
+  timer: number;
+  nextWordTimer: number;
+  paused: boolean;
+  TimerTick: () => void;
+  NextWordTick: () => void;
+  reset: () => void;
+  pause: () => void;
+  resume: () => void;
+};
 
-export const useTimerStore = create<TimerStore>((set) => ({
-    timer: 5 * 60,
-    nextWordTimer: 40,
-    TimerTick: () =>
-    set((s) => {
-      if (s.timer <= 0) return s; 
-      return { timer: s.timer - 1 };
-    }),
-    NextWordTick: () => set((s) => {
-        if(s.nextWordTimer <= 0) return s
-        return {nextWordTimer: s.nextWordTimer -1}
-    }),
-    reset: () => set({nextWordTimer: 40}),
-}))
+export const useTimerStore = create<TimerStore>((set, get) => ({
+  timer: 5 * 60,
+  nextWordTimer: 40,
+  paused: false,
+
+  TimerTick: () => {
+    const { paused, timer } = get();
+    if (!paused && timer > 0) {
+      set({ timer: timer - 1 });
+    }
+  },
+
+  NextWordTick: () => {
+    const { paused, nextWordTimer } = get();
+    if (!paused && nextWordTimer > 0) {
+      set({ nextWordTimer: nextWordTimer - 1 });
+    }
+  },
+
+  reset: () => set({ nextWordTimer: 40 }),
+
+  pause: () => set({ paused: true }),
+
+  resume: () => set({ paused: false }),
+}));

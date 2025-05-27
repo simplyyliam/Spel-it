@@ -2,14 +2,17 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { UIButton } from "@/components/core/UI/ButtonModal";
 import { useTimerStore } from "@/stores/TimerStore";
 import { usePlayerStore } from "@/stores/PlayerStore";
 import PlayerCard from "@/components/core/UI/PlayerCard";
 import NextWordTick from "@/components/core/UI/NextWordTimer";
 import TimerUI from "@/components/core/UI/TimerUI";
-import PauseButton from "@/components/core/UI/PauseButton";
+import { Pause } from "lucide-react";
+import { PauseMenu } from "@/components/modals/PauseMenue";
+import { PasueWrapper } from "@/components/modals/PauseWrapper";
+import { PauseArea } from "@/components/modals/PauseArea";
+import Image from "next/image";
 
 type DatamuseWord = {
   word: string;
@@ -21,9 +24,9 @@ function Page() {
   const inputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
-  const { timer, reset, nextWordTimer } = useTimerStore();
-  const { setPoints, setXP, points, setLearntWords, setMistakes } =
-    usePlayerStore();
+  const [isPaused, setIsPaused] = useState(false);
+  const { timer, reset, nextWordTimer, pause, resume } = useTimerStore();
+  const { setPoints, setXP, setLearntWords, setMistakes } = usePlayerStore();
   const router = useRouter();
 
   const Sfx = {
@@ -132,6 +135,14 @@ function Page() {
     handleNextWord();
   }, [nextWordTimer, reset]);
 
+  useEffect(() => {
+    if(!isPaused) {
+      resume()
+    } else {
+      pause()
+    }
+  }, [isPaused, pause, resume])
+
   const RepeatWord = () => {
     if (!currentWord) return;
 
@@ -161,7 +172,9 @@ function Page() {
             <TimerUI />
             <NextWordTick />
           </div>
-          <PauseButton />
+          <UIButton onClick={() => setIsPaused(true)} className="p-3">
+            <Pause className="stroke-1" />
+          </UIButton>
         </div>
 
         <form onSubmit={onSubmit} className="w-screen lg:p-20">
@@ -178,12 +191,56 @@ function Page() {
           <UIButton className="p-4" onClick={RepeatWord}>
             Repeat
           </UIButton>
-          <UIButton className="p-4">
-            <Link href="/">Leave Game</Link>
-          </UIButton>
         </div>
       </>
       <audio ref={audioRef} preload="auto" />
+
+      {/* Pause Menu Overlay */}
+      {isPaused && (
+        <PasueWrapper>
+          <PauseMenu>
+            <PauseArea>
+              <h1 className="text-7xl font-medium">Pause</h1>
+              <div className="flex flex-col gap-4 items-center justify-center">
+                <UIButton
+                  onClick={() => setIsPaused(false)}
+                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
+                >
+                  Resume
+                </UIButton>
+                <UIButton
+                  onClick={() => {}}
+                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
+                >
+                  Settings
+                </UIButton>
+                <UIButton
+                  onClick={() => router.push("/")}
+                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
+                >
+                  Leave
+                </UIButton>
+              </div>
+            </PauseArea>
+            <Image
+              className="absolute bottom-6 -right-20 rotate-15"
+              src="/Icons/leafs.png"
+              width={250}
+              height={250}
+              quality={100}
+              alt="leafs decoration"
+            />
+            <Image
+              className="absolute bottom-45 -left-10 rotate-15"
+              src="/Icons/leafs.png"
+              width={250}
+              height={250}
+              quality={100}
+              alt="leafs decoration"
+            />
+          </PauseMenu>
+        </PasueWrapper>
+      )}
     </div>
   );
 }
