@@ -9,7 +9,7 @@ import {
 
 const BUTTON_SFX = "/SFX/button.mp3";
 
-export const UIButton = forwardRef<
+export const MenuButton = forwardRef<
   HTMLButtonElement,
   HTMLAttributes<HTMLButtonElement>
 >(({ children, className = "", ...props }, ref) => {
@@ -72,4 +72,4 @@ export const UIButton = forwardRef<
 });
 
 // Optional: for easier debugging
-UIButton.displayName = "CustomButton";
+MenuButton.displayName = "CustomButton";

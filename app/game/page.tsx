@@ -2,7 +2,6 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { UIButton } from "@/components/core/UI/ButtonModal";
 import { useTimerStore } from "@/stores/TimerStore";
 import { usePlayerStore } from "@/stores/PlayerStore";
 import PlayerCard from "@/components/core/UI/PlayerCard";
@@ -13,6 +12,7 @@ import { PauseMenu } from "@/components/modals/PauseMenue";
 import { PasueWrapper } from "@/components/modals/PauseWrapper";
 import { PauseArea } from "@/components/modals/PauseArea";
 import Image from "next/image";
+import { MenuButton } from "@/components/core/UI/MenuButton";
 
 type DatamuseWord = {
   word: string;
@@ -172,9 +172,9 @@ function Page() {
             <TimerUI />
             <NextWordTick />
           </div>
-          <UIButton onClick={() => setIsPaused(true)} className="p-3">
+          <MenuButton onClick={() => setIsPaused(true)} className="p-3">
             <Pause className="stroke-1" />
-          </UIButton>
+          </MenuButton>
         </div>
 
         <form onSubmit={onSubmit} className="w-screen lg:p-20">
@@ -188,9 +188,9 @@ function Page() {
           />
         </form>
         <div className="flex gap-4 items-center justify-center absolute bottom-10">
-          <UIButton className="p-4" onClick={RepeatWord}>
+          <MenuButton className="p-4" onClick={RepeatWord}>
             Repeat
-          </UIButton>
+          </MenuButton>
         </div>
       </>
       <audio ref={audioRef} preload="auto" />
@@ -202,24 +202,24 @@ function Page() {
             <PauseArea>
               <h1 className="text-7xl font-medium">Pause</h1>
               <div className="flex flex-col gap-4 items-center justify-center">
-                <UIButton
+                <MenuButton
                   onClick={() => setIsPaused(false)}
                   className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
                 >
                   Resume
-                </UIButton>
-                <UIButton
+                </MenuButton>
+                <MenuButton
                   onClick={() => {}}
                   className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
                 >
                   Settings
-                </UIButton>
-                <UIButton
+                </MenuButton>
+                <MenuButton
                   onClick={() => router.push("/")}
                   className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
                 >
                   Leave
-                </UIButton>
+                </MenuButton>
               </div>
             </PauseArea>
             <Image
