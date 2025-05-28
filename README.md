@@ -11,9 +11,15 @@ Spel•it is a warm and whimsical spelling game designed to make learning feel l
 ## 📸 Preview
 
 <!-- Add your image links below -->
-![HomeScreen](https://github.com/user-attachments/assets/ce3c00ee-d359-47c4-a513-c7b60cd802c6)
+![HomeScreen](https://github.com/user-attachments/assets/382c23cf-d82a-467b-80e3-59ab316fbba3)
 
 ---
+
+## ⚠️ Just a Heads Up!
+
+Right now, only the “Play” button is active and takes you into the game.
+Buttons like Store, About, and others are just cozy placeholders —
+they’ll be getting their time to shine in a future update!
 
 ## 🎮 Gameplay Features
 
