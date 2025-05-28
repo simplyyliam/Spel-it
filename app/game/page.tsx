@@ -22,7 +22,8 @@ function Page() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
   const [isPaused, setIsPaused] = useState(false);
-  const { timer, resetNextWord, resetTimer, nextWordTimer, pause, resume } = useTimerStore();
+  const { timer, resetNextWord, resetTimer, nextWordTimer, pause, resume } =
+    useTimerStore();
   const { setPoints, setXP, setLearntWords, setMistakes } = usePlayerStore();
   const { setResultsMistakes, setResultsWords } = useNonPlayerPersist();
   const router = useRouter();
@@ -88,8 +89,9 @@ function Page() {
   useEffect(() => {
     if (timer === 0) {
       router.push("/gameOver");
+      resetTimer();
     }
-  }, [timer, router]);
+  }, [timer, router, resetTimer]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -163,11 +165,6 @@ function Page() {
     }
   };
 
-  const handleGameOver = () => {
-    router.push("/gameOver")
-    resetTimer()
-  }
-
   return (
     <div className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       <>
@@ -207,15 +204,6 @@ function Page() {
             }}
           >
             Repeat
-          </MenuButton>
-          <MenuButton
-            className="p-4 text-secondary border-border border-2"
-            onClick={handleGameOver}
-            style={{
-              backgroundColor: "#AF7F66",
-            }}
-          >
-            over
           </MenuButton>
         </div>
       </>
