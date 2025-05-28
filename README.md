@@ -73,6 +73,8 @@ cd Spel-it
 npm install
 npm run dev
 
+```
+
 🔗 [Live Project](https://spel-it-ryjt.vercel.app/)  
 📁 [GitHub Repository](https://github.com/simplyyliam/Spel-it)
 
