@@ -43,6 +43,7 @@ Mobile responsiveness is not yet supported — improvements are on the way!
 ## 📦 Tech Stack
 
 - **Next.js 14** (App Router)
+- **Zustand** (For local storage. Game stats will only be present on the same browser/device. In future updates there will be global storage!)
 - **TypeScript**
 - **TailwindCSS v4** with custom tokens
 - **Google Fonts:** [Baloo 2](https://fonts.google.com/specimen/Baloo+2), [Poppins](https://fonts.google.com/specimen/Poppins)
