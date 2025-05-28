@@ -7,12 +7,12 @@ function PlayerCard() {
   const Xp = PlayerIcons["Xp"];
   const { points, xp } = usePlayerStore();
   return (
-    <div className="flex gap-4 items-center w-auto p-2 pr-10 bg-BG rounded-[13px] border-border border-[1.5px]">
-      <div className="w-[55px] h-[55px] border-border border-[1.5px] rounded-[6.5px] flex items-center justify-center bg-primary/25">
+    <div className="flex gap-4 items-center w-auto p-2 pr-10 bg-primary text-secondary rounded-[13px] border-border border-[1.5px]">
+      <div className="w-[55px] h-[55px] border-border border-[1.5px] rounded-[6.5px] flex items-center justify-center bg-secondary">
         dp
       </div>
       <div className="flex flex-col gap-2">
-        <h1 className="text-xl text-text font-medium">Miyuki</h1>
+        <h1 className="text-xl font-medium">Miyuki</h1>
         <div className="flex gap-2">
             <span className="flex gap-2 items-center justify-center w-auto h-auto">
               <Image

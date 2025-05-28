@@ -6,7 +6,7 @@ export const PauseArea: React.FC<HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={`flex flex-col gap-8 items-center justify-center w-auto h-auto rotate-15 relative left-10 top-5  ${className}`} {...props}>
+    <div className={`flex flex-col items-center justify-center w-auto h-auto  ${className}`} {...props}>
         {children}
     </div>
   );

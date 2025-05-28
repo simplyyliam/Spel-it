@@ -19,7 +19,7 @@ function NextWordTick() {
 
 
   return (
-    <div className="flex gap-3 items-center justify-center bg-secondary border-border border-[1.5px] rounded-xl p-3 px-4">
+    <div className="flex gap-3 items-center justify-center bg-primary text-secondary border-border border-[1.5px] rounded-xl p-3 px-4">
       <TimerIcon className="stroke-1" />
       <span className="text-xl">{nextWordTimer}</span>
     </div>

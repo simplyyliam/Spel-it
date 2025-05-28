@@ -3,16 +3,13 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTimerStore } from "@/stores/TimerStore";
-import { usePlayerStore } from "@/stores/PlayerStore";
+import { useNonPlayerPersist, usePlayerStore } from "@/stores/PlayerStore";
 import PlayerCard from "@/components/core/UI/PlayerCard";
 import NextWordTick from "@/components/core/UI/NextWordTimer";
 import TimerUI from "@/components/core/UI/TimerUI";
 import { Pause } from "lucide-react";
-import { PauseMenu } from "@/components/modals/PauseMenue";
-import { PasueWrapper } from "@/components/modals/PauseWrapper";
-import { PauseArea } from "@/components/modals/PauseArea";
-import Image from "next/image";
 import { MenuButton } from "@/components/core/UI/MenuButton";
+import PauseMenu from "@/components/core/UI/PauseMenu";
 
 type DatamuseWord = {
   word: string;
@@ -25,8 +22,9 @@ function Page() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentWord, setCurrentWord] = useState("");
   const [isPaused, setIsPaused] = useState(false);
-  const { timer, reset, nextWordTimer, pause, resume } = useTimerStore();
+  const { timer, resetNextWord, resetTimer, nextWordTimer, pause, resume } = useTimerStore();
   const { setPoints, setXP, setLearntWords, setMistakes } = usePlayerStore();
+  const { setResultsMistakes, setResultsWords } = useNonPlayerPersist();
   const router = useRouter();
 
   const Sfx = {
@@ -49,7 +47,7 @@ function Page() {
     const newWord = await getWordFromDatamuse();
     setCurrentWord(newWord);
     speakWord(newWord);
-    reset();
+    resetNextWord();
     if (inputRef.current) inputRef.current.value = "";
   }
 
@@ -89,7 +87,7 @@ function Page() {
   // Check if user reached 5 correct answers
   useEffect(() => {
     if (timer === 0) {
-      router.push("/");
+      router.push("/gameOver");
     }
   }, [timer, router]);
 
@@ -104,6 +102,7 @@ function Page() {
       setPoints(5);
       setXP(10);
       setLearntWords(1);
+      setResultsWords(1);
       try {
         await audio.play();
       } catch (err) {
@@ -114,6 +113,7 @@ function Page() {
       newWord();
       audio.src = Sfx.wrong;
       setMistakes(1);
+      setResultsMistakes(1);
       try {
         await audio.play();
       } catch (err) {
@@ -128,20 +128,20 @@ function Page() {
         const newWord = await getWordFromDatamuse();
         setCurrentWord(newWord);
         speakWord(newWord);
-        reset();
+        resetNextWord();
       }
     };
 
     handleNextWord();
-  }, [nextWordTimer, reset]);
+  }, [nextWordTimer, resetNextWord]);
 
   useEffect(() => {
-    if(!isPaused) {
-      resume()
+    if (!isPaused) {
+      resume();
     } else {
-      pause()
+      pause();
     }
-  }, [isPaused, pause, resume])
+  }, [isPaused, pause, resume]);
 
   const RepeatWord = () => {
     if (!currentWord) return;
@@ -163,6 +163,11 @@ function Page() {
     }
   };
 
+  const handleGameOver = () => {
+    router.push("/gameOver")
+    resetTimer()
+  }
+
   return (
     <div className="flex flex-col lg:gap-4 gap-10 items-center justify-center min-h-screen">
       <>
@@ -172,7 +177,13 @@ function Page() {
             <TimerUI />
             <NextWordTick />
           </div>
-          <MenuButton onClick={() => setIsPaused(true)} className="p-3">
+          <MenuButton
+            onClick={() => setIsPaused(true)}
+            className="p-3 text-secondary border-border border-2"
+            style={{
+              backgroundColor: "#AF7F66",
+            }}
+          >
             <Pause className="stroke-1" />
           </MenuButton>
         </div>
@@ -188,59 +199,30 @@ function Page() {
           />
         </form>
         <div className="flex gap-4 items-center justify-center absolute bottom-10">
-          <MenuButton className="p-4" onClick={RepeatWord}>
+          <MenuButton
+            className="p-4 text-secondary border-border border-2"
+            onClick={RepeatWord}
+            style={{
+              backgroundColor: "#AF7F66",
+            }}
+          >
             Repeat
+          </MenuButton>
+          <MenuButton
+            className="p-4 text-secondary border-border border-2"
+            onClick={handleGameOver}
+            style={{
+              backgroundColor: "#AF7F66",
+            }}
+          >
+            over
           </MenuButton>
         </div>
       </>
       <audio ref={audioRef} preload="auto" />
 
       {/* Pause Menu Overlay */}
-      {isPaused && (
-        <PasueWrapper>
-          <PauseMenu>
-            <PauseArea>
-              <h1 className="text-7xl font-medium">Pause</h1>
-              <div className="flex flex-col gap-4 items-center justify-center">
-                <MenuButton
-                  onClick={() => setIsPaused(false)}
-                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
-                >
-                  Resume
-                </MenuButton>
-                <MenuButton
-                  onClick={() => {}}
-                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
-                >
-                  Settings
-                </MenuButton>
-                <MenuButton
-                  onClick={() => router.push("/")}
-                  className="p-4 w-60 text-xl hover:bg-primary hover:text-BG hover:shadow-xl shadow-black/25 transition ease-linear"
-                >
-                  Leave
-                </MenuButton>
-              </div>
-            </PauseArea>
-            <Image
-              className="absolute bottom-6 -right-20 rotate-15"
-              src="/Icons/leafs.png"
-              width={250}
-              height={250}
-              quality={100}
-              alt="leafs decoration"
-            />
-            <Image
-              className="absolute bottom-45 -left-10 rotate-15"
-              src="/Icons/leafs.png"
-              width={250}
-              height={250}
-              quality={100}
-              alt="leafs decoration"
-            />
-          </PauseMenu>
-        </PasueWrapper>
-      )}
+      {isPaused && <PauseMenu resumeGame={() => setIsPaused(false)} />}
     </div>
   );
 }

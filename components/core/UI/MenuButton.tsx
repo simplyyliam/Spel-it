@@ -61,7 +61,7 @@ export const MenuButton = forwardRef<
     <>
       <button
         ref={innerRef}
-        className={` bg-secondary border-border border-[1.5px] cursor-pointer rounded-xl ${className}`}
+        className={` bg-secondary border-border border-2 transition ease-linear cursor-pointer rounded-xl ${className}`}
         {...props}
       >
         {children}

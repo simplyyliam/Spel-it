@@ -6,7 +6,8 @@ type TimerStore = {
   paused: boolean;
   TimerTick: () => void;
   NextWordTick: () => void;
-  reset: () => void;
+  resetNextWord: () => void;
+  resetTimer: () => void;
   pause: () => void;
   resume: () => void;
 };
@@ -30,7 +31,8 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
     }
   },
 
-  reset: () => set({ nextWordTimer: 40 }),
+  resetNextWord: () => set({ nextWordTimer: 40 }),
+  resetTimer: () => set({ timer: 5 * 60 }),
 
   pause: () => set({ paused: true }),
 

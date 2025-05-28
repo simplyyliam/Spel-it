@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create, StoreApi } from "zustand";
 import { persist } from "zustand/middleware";
 
 type Rank =
@@ -29,23 +29,23 @@ type PlayerStore = {
 };
 
 const rankThresholds: { rank: Rank; xp: number }[] = [
-  { rank: "unranked", xp: 0 },
-  { rank: "Noobling", xp: 500 },
-  { rank: "Typo Tamer", xp: 1500 },
-  { rank: "Spella", xp: 2500 },
-  { rank: "Word Weilder", xp: 5000 },
-  { rank: "Syllabreaker", xp: 7500 },
-  { rank: "Lexi Knight", xp: 10000 },
-  { rank: "Vocabrawler", xp: 12500},
-  { rank: "Phoneme Phantom", xp: 15000 },
-  { rank: "WorldLord", xp: 17500 }
+    { rank: "unranked", xp: 0 },
+    { rank: "Noobling", xp: 500 },
+    { rank: "Typo Tamer", xp: 1500 },
+    { rank: "Spella", xp: 2500 },
+    { rank: "Word Weilder", xp: 5000 },
+    { rank: "Syllabreaker", xp: 7500 },
+    { rank: "Lexi Knight", xp: 10000 },
+    { rank: "Vocabrawler", xp: 12500 },
+    { rank: "Phoneme Phantom", xp: 15000 },
+    { rank: "WorldLord", xp: 17500 }
 ];
 
 const getRankFromXP = (xp: number): Rank => {
-  for (let i = rankThresholds.length - 1; i >= 0; i--) {
-    if (xp >= rankThresholds[i].xp) return rankThresholds[i].rank;
-  }
-  return "unranked"
+    for (let i = rankThresholds.length - 1; i >= 0; i--) {
+        if (xp >= rankThresholds[i].xp) return rankThresholds[i].rank;
+    }
+    return "unranked"
 };
 
 export const usePlayerStore = create(
@@ -77,6 +77,23 @@ export const usePlayerStore = create(
             name: "Player-storage", // 🔒 key in localStorage
         }
     )
-
 )
 
+type NonPersistStore = {
+    learntWords: number;
+    mistakes: number;
+
+    setResultsWords: (value: number) => void;
+    setResultsMistakes: (value: number) => void;
+    reset: () => void
+}
+
+export const useNonPlayerPersist = create<NonPersistStore>((set) => ({
+    learntWords: 0,
+    mistakes: 0,
+    setResultsWords: (value) =>
+        set((state) => ({ learntWords: state.learntWords + value })),
+    setResultsMistakes: (value) =>
+        set((state) => ({ mistakes: state.mistakes + value })),
+     reset: () => set({ learntWords: 0, mistakes: 0 })
+}))

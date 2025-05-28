@@ -11,7 +11,7 @@
     --font-Poppins: "Baloo Bhai 2", sans-serif;
 
     
-    --color-BG: #FAF4EF;
+    --color-BG: #EAE2D7;
     --color-primary: #AF7F66;
     --color-secondary: #FDF6EE;
     --color-border: #3E302C;
@@ -40,6 +40,7 @@
 body, 
 html {
     overflow: hidden;
+    background-color: #EAE2D7;
 }
 
 .button {

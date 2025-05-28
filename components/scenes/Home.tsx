@@ -8,7 +8,7 @@ import { MenuButton } from "../core/UI/MenuButton";
 import { SignBoard } from "../core/UI/SignBoardModal";
 import { SceneWrapper } from "../modals/SceneWrapper";
 import PlayerProfile from "../core/UI/PlayerProfile";
-import { Info, InfoIcon, Settings } from "lucide-react";
+import { Info, Settings } from "lucide-react";
 
 function HomeScene() {
   return (
@@ -25,7 +25,7 @@ function HomeScene() {
             </div>
             <SignBoard className=" h-12 w-55 relative left-19 bottom-22 flex items-center justify-center">
               <TitleMotion>
-                <h1>Hear it, Spell it, Nail it</h1>
+                Hear it, Spell it, Nail it
               </TitleMotion>
               <div className="w-full bg-primary h-2 absolute bottom-0 bg-gradient-to-t from-[#574338] to-primary"></div>
             </SignBoard>

@@ -4,9 +4,10 @@ import { CardWrapper } from "@/components/modals/CardWrapper";
 import { MenuButton } from "./MenuButton";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { usePlayerStore } from "@/stores/PlayerStore";
+
 import Image from "next/image";
 import { PlayerIcons } from "./PlayerIcons";
+import { usePlayerStore } from "@/stores/PlayerStore";
 
 function PlayerProfile() {
   const [showProfile, setShowProfile] = useState(false);
